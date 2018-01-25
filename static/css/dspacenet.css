@@ -1,0 +1,35 @@
+.profile-image {
+  width:15vw;
+  height:15vw;
+  position:absolute;
+  bottom:10px;
+  right:30px;
+  border: 4px ridge white;
+  display: inline-block;
+}
+
+.profile-header {
+  background:url(../images/header.jpg);
+  background-size:cover;
+  background-position:center;
+  color: white;
+  font-size: 4.5vw;
+  line-height: 100%;
+}
+
+.loader {
+  background:url(../images/loader.gif);
+  background-position:center;
+  background-repeat:no-repeat;
+  min-height:60px;
+}
+
+.text-break {
+  word-break: break-word;
+}
+
+.gear-loader {
+  background:url(../images/Gear.gif);
+  background-position:right;
+  background-repeat: no-repeat;
+}
