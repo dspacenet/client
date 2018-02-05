@@ -18,10 +18,12 @@
 </template>
 
 <script>
-import { setToken } from '~/utils/auth'
 
 export default {
-  layout: 'simple',
+  options: {
+    layout: 'simple',
+    auth: false
+  },
   data () {
     return {
       login: {
@@ -34,14 +36,17 @@ export default {
   methods: {
     async onSubmit () {
       try {
-        const { token, user } = await this.$axios.$post('login', this.login)
-        setToken(token, user)
-        this.$router.replace({ path: '/' })
+        await this.$auth.login({
+          data: {
+            username: this.login.username,
+            password: this.login.password
+          }
+        })
+        this.$router.replace({ path: decodeURIComponent(this.$route.query.redirect) })
       } catch (error) {
         this.error = error.response ? error.response.data : error.message
       }
     }
-  },
-  middleware: 'anon'
+  }
 }
 </script>

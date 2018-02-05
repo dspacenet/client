@@ -1,7 +1,7 @@
 <script>
 export default {
-  async asyncData (ctx) {
-    ctx.redirect('/space/global')
+  mounted () {
+    this.$router.replace({ path: 'space/global' })
   }
 }
 </script>

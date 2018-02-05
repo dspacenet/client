@@ -17,6 +17,7 @@ module.exports = {
   // External modules
   modules: [
     'bootstrap-vue/nuxt',
+    '@nuxtjs/auth',
     '@nuxtjs/axios'
   ],
   // Customize the progress bar color
@@ -49,15 +50,20 @@ module.exports = {
   },
   // Plugins
   plugins: [
-    '~/plugins/axios.js',
     '~/plugins/icon.js'
   ],
   // Axios global configuration
   axios: {
     baseURL: process.env.API_URL || 'http://localhost:3500/api/'
   },
-  // Router configuration
-  router: {
-    middleware: 'check-auth'
-  }
+  // Auth Setup
+  auth: {
+    endpoints: {
+      login: { url: 'login', method: 'post', propertyName: 'token' },
+      logout: { url: 'logout', method: 'get' },
+      user: { url: 'user', method: 'get', propertyName: 'user' }
+    }
+  },
+  // Middleware
+  middleware: ['auth']
 }
