@@ -31,8 +31,8 @@ import 'vue-awesome/icons/sign-out'
 export default {
   data () {
     return {
-      username: this.$store.state.user ? this.$store.state.user.username : '',
-      userId: this.$store.state.user ? this.$store.state.user.userId : ''
+      username: this.$auth.state.user.name,
+      userId: this.$auth.state.user.id
     }
   }
 }
