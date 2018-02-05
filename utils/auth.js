@@ -17,6 +17,7 @@ export const getUserFromServer = async (req, axios) => {
     const { data } = await axios.get('user')
     return { token: jwt, user: data }
   } catch (error) {
+    console.log(error)
     return { }
   }
 }
