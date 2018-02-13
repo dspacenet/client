@@ -2,11 +2,11 @@
   <b-container>
     <b-card no-body class="mb-3">
       <b-tabs card @input="refreshTOP">
-        <b-tab title="&nbsp;">
+        <b-tab title="&nbsp;" title-link-class="no-tab">
           <SpaceTerminal :path="spaceId" />
           <SpaceView :path="spaceId" />
         </b-tab>
-        <b-tab title="Forum">
+        <b-tab title="Forum" v-if="!isGlobal">
           <SpaceTerminal :path="spaceId + '.' + spaceId" />
           <SpaceView :path="spaceId + '.' + spaceId" />
         </b-tab>
@@ -74,5 +74,10 @@ export default {
 
 .user-image {
   margin-top: -8px;
+}
+
+.no-tab {
+  background: initial !important;
+  border: initial !important;
 }
 </style>

@@ -7,13 +7,6 @@
         </nuxt-link>
       </b-container>
     </b-carousel-slide>
-    <b-carousel-slide img-blank img-height="80">
-      <b-container deck slot="img" class="text-center">
-        <nuxt-link :to="'/space/' + space.id" v-for="space in spaces" :key="space.id" >
-          <b-img width="80" height="80" :src="'/images/' + space.user + '.jpg'" rounded="circle" class="mx-2"/>
-        </nuxt-link>
-      </b-container>
-    </b-carousel-slide>
   </b-carousel>
 </template>
 
