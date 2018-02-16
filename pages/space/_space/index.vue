@@ -6,7 +6,7 @@
           <SpaceTerminal :path="spaceId" />
           <SpaceView :path="spaceId" />
         </b-tab>
-        <b-tab title="Forum" v-if="!isGlobal">
+        <b-tab title="Forum">
           <SpaceTerminal :path="spaceId + '.' + spaceId" />
           <SpaceView :path="spaceId + '.' + spaceId" />
         </b-tab>
