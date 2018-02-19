@@ -2,24 +2,22 @@
   <b-container>
     <b-card no-body class="mb-3">
       <b-tabs card @input="refreshTOP">
-        <b-tab title="&nbsp;" title-link-class="no-tab">
-          <SpaceTerminal :path="spaceId" />
-          <SpaceView :path="spaceId" />
+        <b-tab title="Forum" >
+          <space-terminal :path="subspace(0)" />
+          <space-view :path="subspace(0)" />
         </b-tab>
-        <b-tab title="Forum">
-          <SpaceTerminal :path="spaceId + '.' + spaceId" />
-          <SpaceView :path="spaceId + '.' + spaceId" />
+        <b-tab title="Wall">
+          <space-terminal :path="subspace(8)" />
+          <space-view :path="subspace(8)" />
         </b-tab>
         <b-tab title="TOP" v-if="isOwnSpace">
-          <ProccessesView :path="spaceId" ref="pv" />
-        </b-tab>
-        <b-tab title="Subspaces">
-          <SpaceExplorer :spaces="childs" :path="spaceId" />
+          <proccesses-view :path="spaceId" ref="pv" />
         </b-tab>
         <template slot="tabs">
+          <space-explorer :path="spaceId" :spaces="childs" />
           <div class="ml-auto">
             {{header}}
-            <b-img rounded="circle" :src="'/images/users/small/' + space + '.jpg'" class="user-image" />
+            <b-img rounded="circle" :src="'/images/users/small/' + space + '.jpg'" class="user-image"/>
           </div>
         </template>
       </b-tabs>
@@ -49,6 +47,9 @@ export default {
   methods: {
     refreshTOP (index) {
       if (this.isOwnSpace && index === 1) this.$refs.pv.refresh()
+    },
+    subspace (id) {
+      return this.isGlobal ? id : `${this.spaceId}.${id}`
     }
   }
 }
