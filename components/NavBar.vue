@@ -11,6 +11,10 @@
           <b-img rounded="circle" width="22" height="22" :src="'/images/' + username + '.jpg'" />
           {{username}} ({{userId}})
         </b-nav-item>
+        <b-nav-item to="/explorer">
+          <icon name="binoculars" />
+          <span class="d-lg-none">Space Explorer</span>
+        </b-nav-item>
         <b-nav-item v-b-modal.helpModal>
           <icon name="question-circle" />
           <span class="d-lg-none">Help</span>
@@ -26,6 +30,7 @@
 
 <script>
 import 'vue-awesome/icons/question-circle'
+import 'vue-awesome/icons/binoculars'
 import 'vue-awesome/icons/sign-out'
 
 export default {
