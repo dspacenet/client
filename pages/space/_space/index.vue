@@ -2,9 +2,9 @@
   <b-container>
     <b-card no-body class="mb-3">
       <b-tabs card @input="refreshTOP">
-        <b-tab title="Forum" >
-          <space-terminal :path="subspace(0)" />
-          <space-view :path="subspace(0)" />
+        <b-tab title="&nbsp;" title-link-class="no-tab" >
+          <space-terminal :path="spaceId" />
+          <space-view :path="spaceId" />
         </b-tab>
         <b-tab title="Wall">
           <space-terminal :path="subspace(8)" />
@@ -16,6 +16,9 @@
         <template slot="tabs">
           <space-explorer :path="spaceId" :spaces="childs" />
           <div class="ml-auto">
+            <nuxt-link :to="'/space/' + parentSpace" v-if="!isGlobal" title="Go up" v-b-tooltip.hover>
+              <icon name="long-arrow-up" scale="2" class="go-up-arrow" />
+            </nuxt-link>
             {{header}}
             <b-img rounded="circle" :src="'/images/users/small/' + space + '.jpg'" class="user-image"/>
           </div>
@@ -33,12 +36,18 @@ import ProccessesView from '~/components/ProccessesView.vue'
 import SpaceExplorer from '~/components/SpaceExplorer.vue'
 import SpaceSlider from '~/components/SpaceSlider.vue'
 
+import 'vue-awesome/icons/long-arrow-up'
+
 export default {
   middleware: ['auth', 'resolvePath'],
   asyncData: ctx => ctx.app.$axios.$get(`meta/space/${ctx.params.space}`),
   computed: {
     header () {
       return this.space + (this.isGlobal ? '' : "'s") + ' space'
+    },
+    parentSpace () {
+      if (`${this.spaceId}`.indexOf('.') < 0) return 'global'
+      return this.spaceId.splice(this.spaceId.lastIndexOf('.'))
     }
   },
   components: {
@@ -46,7 +55,7 @@ export default {
   },
   methods: {
     refreshTOP (index) {
-      if (this.isOwnSpace && index === 1) this.$refs.pv.refresh()
+      if (this.isOwnSpace && index === 2) this.$refs.pv.refresh()
     },
     subspace (id) {
       return this.isGlobal ? id : `${this.spaceId}.${id}`
@@ -80,5 +89,9 @@ export default {
 .no-tab {
   background: initial !important;
   border: initial !important;
+}
+
+.go-up-arrow {
+  margin-bottom: -10px
 }
 </style>
