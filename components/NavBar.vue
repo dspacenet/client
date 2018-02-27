@@ -11,15 +11,15 @@
           <b-img rounded="circle" width="22" height="22" :src="'/images/' + username + '.jpg'" />
           {{username}} ({{userId}})
         </b-nav-item>
-        <b-nav-item to="/explorer">
+        <b-nav-item to="/explorer" title="Explore" v-b-tooltip.hover>
           <icon name="binoculars" />
           <span class="d-lg-none">Space Explorer</span>
         </b-nav-item>
-        <b-nav-item v-b-modal.helpModal>
+        <b-nav-item title="Help" v-b-popover.bottom.hover="'P:= post(c)  | whenever c do P | P || Q | repeat P | until c do P | when c do P | while c do P | now c do P | now c then P else Q | kill(c)'">
           <icon name="question-circle" />
           <span class="d-lg-none">Help</span>
         </b-nav-item>
-        <b-nav-item v-b-modal.logoutModal>
+        <b-nav-item title="Logout" v-b-modal.logoutModal v-b-tooltip.hover>
           <icon name="sign-out" />
           <span>Logout</span>
         </b-nav-item>
