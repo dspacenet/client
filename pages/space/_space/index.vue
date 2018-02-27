@@ -1,8 +1,8 @@
 <template>
   <b-container>
     <b-card no-body class="mb-3">
-      <b-tabs card @input="refreshTOP">
-        <b-tab title="&nbsp;" title-link-class="no-tab" >
+      <b-tabs card @input="refreshTOP" v-model="tabIndex">
+        <b-tab title="" title-link-class="no-tab" >
           <space-terminal :path="spaceId" />
           <space-view :path="spaceId" />
         </b-tab>
@@ -11,11 +11,11 @@
           <space-view :path="subspace(8)" />
         </b-tab>
         <b-tab title="TOP" v-if="isOwnSpace">
-          <proccesses-view :path="spaceId" ref="pv" />
+          <processes-view :path="spaceId" ref="pv" />
         </b-tab>
         <template slot="tabs">
           <space-explorer :path="spaceId" :spaces="childs" />
-          <div class="ml-auto">
+          <div class="ml-auto" @click="tabIndex = 0">
             <nuxt-link :to="'/space/' + parentSpace" v-if="!isGlobal" title="Go up" v-b-tooltip.hover>
               <icon name="long-arrow-up" scale="2" class="go-up-arrow" />
             </nuxt-link>
@@ -32,7 +32,7 @@
 <script>
 import SpaceView from '~/components/SpaceView.vue'
 import SpaceTerminal from '~/components/SpaceTerminal.vue'
-import ProccessesView from '~/components/ProccessesView.vue'
+import ProcessesView from '~/components/ProcessesView.vue'
 import SpaceExplorer from '~/components/SpaceExplorer.vue'
 import SpaceSlider from '~/components/SpaceSlider.vue'
 
@@ -41,6 +41,11 @@ import 'vue-awesome/icons/long-arrow-up'
 export default {
   middleware: ['auth', 'resolvePath'],
   asyncData: ctx => ctx.app.$axios.$get(`meta/space/${ctx.params.space}`),
+  data () {
+    return {
+      tabIndex: 0
+    }
+  },
   computed: {
     header () {
       return this.space + (this.isGlobal ? '' : "'s") + ' space'
@@ -51,7 +56,7 @@ export default {
     }
   },
   components: {
-    SpaceView, SpaceTerminal, ProccessesView, SpaceExplorer, SpaceSlider
+    SpaceView, SpaceTerminal, ProcessesView, SpaceExplorer, SpaceSlider
   },
   methods: {
     refreshTOP (index) {
