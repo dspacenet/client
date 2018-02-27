@@ -39,7 +39,9 @@ export default {
       this.isLoading = false
     },
     renderMessage (message) {
-      return decodeURI(message).replace(/\n/g, '<br>')
+      return decodeURI(message)
+        .replace(/(https?:\/\/[^\s]+)/g, url => `<a href="${url}">${url}</a>`)
+        .replace(/\n/g, '<br>')
     }
   },
 
