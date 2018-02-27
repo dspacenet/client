@@ -12,7 +12,12 @@
 
 <script>
 export default {
-  props: ['spaces']
+  props: ['spaces'],
+  data: () => {
+    return {
+      slide: 0
+    }
+  }
 }
 </script>
 
