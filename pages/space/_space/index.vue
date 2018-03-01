@@ -6,7 +6,7 @@
           <space-terminal :path="spaceId" />
           <space-view :path="spaceId" />
         </b-tab>
-        <b-tab title="Wall">
+        <b-tab title="Forum">
           <space-terminal :path="subspace(8)" />
           <space-view :path="subspace(8)" />
         </b-tab>
