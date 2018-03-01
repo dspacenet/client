@@ -25,7 +25,10 @@ export default {
   methods: {
     async explore () {
       try {
-        this.items = await this.$axios.$get(`space/${this.path}`)
+        this.items = (await this.$axios.$get(`space/${this.path}`)).map((post) => {
+          post.msg = decodeURI(post.msg)
+          return post
+        })
       } catch (error) {
         this.error = error.response ? error.response.data : error.message
       }
