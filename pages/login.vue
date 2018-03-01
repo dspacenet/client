@@ -13,6 +13,9 @@
         </b-form-group>
         <b-button type="submit" variant="primary" block>Login</b-button>
       </b-form>
+      <div class="text-center small mt-3">
+        <nuxt-link to="/register">Register an Account</nuxt-link>
+      </div>
     </b-card>
   </div>
 </template>
