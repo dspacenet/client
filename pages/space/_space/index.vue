@@ -13,6 +13,9 @@
         <b-tab title="TOP" v-if="isOwnSpace">
           <processes-view :path="spaceId" ref="pv" />
         </b-tab>
+        <b-tab title="Poll">
+          <poll-view />
+        </b-tab>
         <template slot="tabs">
           <space-explorer :path="spaceId" :spaces="childs" />
           <div class="ml-auto" @click="tabIndex = 0">
@@ -35,6 +38,7 @@ import SpaceTerminal from '~/components/SpaceTerminal.vue'
 import ProcessesView from '~/components/ProcessesView.vue'
 import SpaceExplorer from '~/components/SpaceExplorer.vue'
 import SpaceSlider from '~/components/SpaceSlider.vue'
+import PollView from '~/components/PollView.vue';
 
 import 'vue-awesome/icons/long-arrow-up'
 
@@ -56,7 +60,7 @@ export default {
     }
   },
   components: {
-    SpaceView, SpaceTerminal, ProcessesView, SpaceExplorer, SpaceSlider
+    SpaceView, SpaceTerminal, ProcessesView, SpaceExplorer, SpaceSlider, PollView
   },
   methods: {
     refreshTOP (index) {
