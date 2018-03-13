@@ -9,7 +9,7 @@
           <b-list-group-item  v-for="post in posts" :key="post.pid">
             <b-media class="text-break">
               <b-img slot="aside" rounded="circle" :src="'/images/users/small/'+ post.user_msg + '.jpg'" />
-              <strong>{{post.user_msg}}</strong> <span v-html="renderMessage(post.msg)"></span>
+              <strong>{{post.user_msg}}&nbsp;</strong> <span v-html="renderMessage(post.msg)"></span>
             </b-media>
           </b-list-group-item>
           <b-list-group-item v-if="posts.length === 0">
