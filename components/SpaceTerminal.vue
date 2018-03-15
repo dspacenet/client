@@ -1,7 +1,12 @@
 <template>
   <b-form @submit.prevent="submitMessage">
     <b-alert variant="danger" :show="true" dismissible v-for="(error, index) in errors" :key="index">{{error}}</b-alert>
-    <b-form-textarea v-model="program" placeholder="Post your program or message here. Press SHIFT+ENTER to insert a line break." class="m-1"/>
+    <b-form-textarea
+      v-model="program"
+      placeholder="Post your program or message here. Press SHIFT+ENTER to insert a line break."
+      class="m-1"
+      :class="{loading: isLoading}"
+    />
     <b-button type="submit" class="m-1" v-b-tooltip.hover title="Post Message" variant="primary">
       <icon name="paper-plane" /> Post Message
     </b-button>
@@ -49,3 +54,12 @@ export default {
   }
 }
 </script>
+
+<style>
+.loading {
+  background-image: url('/images/Gear.svg');
+  background-position-y: center;
+  background-position-x: calc(100% -5px);
+  background-repeat: no-repeat;
+}
+</style>
