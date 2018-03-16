@@ -5,7 +5,7 @@
 
 <script>
 export default {
-    // TODO: Poll interface and results.
+  // TODO: Poll interface and results.
 }
 </script>
 
