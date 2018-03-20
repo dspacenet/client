@@ -38,7 +38,7 @@ import SpaceTerminal from '~/components/SpaceTerminal.vue'
 import ProcessesView from '~/components/ProcessesView.vue'
 import SpaceExplorer from '~/components/SpaceExplorer.vue'
 import SpaceSlider from '~/components/SpaceSlider.vue'
-import PollView from '~/components/PollView.vue';
+import PollView from '~/components/PollView.vue'
 
 import 'vue-awesome/icons/long-arrow-up'
 
