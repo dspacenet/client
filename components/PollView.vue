@@ -1,5 +1,17 @@
 <template>
-  <b-form @submit="onSubmit" v-if="isOpen">
+  <b-form @submit.prevent="onSubmit" v-if="isOpen">
+    <b-alert :show="alert.currentSecs"
+             dismissible
+             variant="warning"
+             @dismissed="alert.currentSecs=0"
+             @dismiss-count-down="onAlertCountDown">
+      <p>Your choice was {{ alert.selectedOption }} but we will report {{ alert.reportedOption }} </p>
+      <b-progress variant="warning"
+                  :max="alert.maxSecs"
+                  :value="alert.currentSecs"
+                  height="4px">
+      </b-progress>
+    </b-alert>
     <b-card no-body>
       <div slot="header">
         {{ pollTitle }}
@@ -37,6 +49,7 @@
 export default {
   data () {
     return {
+      alert: { currentSecs: 0, maxSecs: 5, selectedOption: 0, reportedOption: 0 },
       pollTitle: 'Poll Title',
       isOpen: true,
       selected: 0,
@@ -51,14 +64,34 @@ export default {
     }
   },
   methods: {
-    // TODO: fetch the data from the server.
+    // TODO: fetch the data (options, results) from the server (API).
     onSubmit: async function (evt) {
-      // TODO: Apply DP to the value.
-      // TODO: Send the value to the server.
+      let choice = this.getDPChoice()
+      // For testing only
+      this.alert.selectedOption = this.selected
+      this.alert.reportedOption = choice
+      this.showAlert()
+
+      // TODO: Send the value (choice) to the server.
     },
     closePoll () {
       this.isOpen = false
       // TODO: Send the close command to the server.
+    },
+    getDPChoice () {
+      let coin = Math.random()
+      if (coin >= 0.5) {
+        return this.selected
+      } else {
+        let dice = Math.floor(Math.random() * this.options.length)
+        return dice
+      }
+    },
+    showAlert () {
+      this.alert.currentSecs = this.alert.maxSecs
+    },
+    onAlertCountDown (newCountDown) {
+      this.alert.currentSecs = newCountDown
     }
   },
   computed: {
