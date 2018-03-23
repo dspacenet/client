@@ -1,13 +1,16 @@
 <template>
   <div>
-    <b-form @submit.prevent="createPoll">
+    <b-form inline @submit.prevent="createPoll" class="mb-2">
       <b-alert variant="danger" :show="true" dismissible v-for="(error, index) in errors" :key="index">{{error}}</b-alert>
-      <b-form-textarea
+      <label class="sr-only" for="pollName">Poll question</label>
+      <b-form-input
         v-model="newPollTitle"
-        placeholder="New Poll Title"
+        id="pollName"
+        placeholder="New question"
+        class="mr-2"
       />
       <b-button type="submit" v-b-tooltip.hover title="Create Poll" variant="primary">
-        <icon name="paper-plane" /> Create Poll
+        <icon name="check-square-o" /> Create Poll
       </b-button>
     </b-form>
     <b-form @submit.prevent="onSubmit" v-if="isOpen">
@@ -58,12 +61,12 @@
 </template>
 
 <script>
-import 'vue-awesome/icons/paper-plane'
+import 'vue-awesome/icons/check-square-o'
 
 export default {
   data () {
     return {
-      alert: { currentSecs: 0, maxSecs: 5, selectedOption: 0, reportedOption: 0 },
+      alert: { currentSecs: 0, maxSecs: 10, selectedOption: 0, reportedOption: 0 },
       pollTitle: 'Poll Title',
       newPollTitle: '',
       isOpen: true,
@@ -93,6 +96,7 @@ export default {
     createPoll () {
       // TODO: Send the create command to the server.
       this.pollTitle = this.newPollTitle
+      this.newPollTitle = ''
     },
     closePoll () {
       this.isOpen = false
