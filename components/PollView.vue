@@ -50,7 +50,11 @@
       <b-list-group flush>
         <b-list-group-item v-for="result of results" :key="result.value">
           {{ result.text }}
-          <b-progress show-progress :value="result.count" :max="total"></b-progress>
+          <b-progress :max="total">
+            <b-progress-bar :value="result.count" >
+              {{ (value / max * 100).toFixed(0) }}%
+            </b-progress-bar>
+          </b-progress>
         </b-list-group-item>
       </b-list-group>
       <div slot="footer">
