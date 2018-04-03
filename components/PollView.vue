@@ -52,7 +52,7 @@
           {{ result.text }}
           <b-progress :max="total">
             <b-progress-bar :value="result.count" >
-              {{ (value / max * 100).toFixed(0) }}%
+              {{ (result.count / total * 100).toFixed(0) }}%
             </b-progress-bar>
           </b-progress>
         </b-list-group-item>
