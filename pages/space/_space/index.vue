@@ -14,7 +14,7 @@
           <processes-view :path="spaceId" ref="pv" />
         </b-tab>
         <b-tab title="Poll">
-          <poll-view />
+          <poll-view :path="subspace(10)" />
         </b-tab>
         <template slot="tabs">
           <space-explorer :path="spaceId" :spaces="childs" />

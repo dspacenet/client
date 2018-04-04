@@ -68,12 +68,14 @@
 import 'vue-awesome/icons/check-square-o'
 
 export default {
+  props: ['path'],
   data () {
     return {
       alert: { currentSecs: 0, maxSecs: 10, selectedOption: 0, reportedOption: 0 },
       pollTitle: 'Poll Title',
       newPollTitle: '',
       isOpen: true,
+      isLoading: false,
       selected: 0,
       options: [
         { text: 'No', value: 0 },
@@ -87,6 +89,18 @@ export default {
     }
   },
   methods: {
+    async submitCommand (program) {
+      this.isLoading = true
+      try {
+        let path = this.path || 'global'
+        let options = { storeProcess: false }
+        console.log(Object.assign({ program }, options))
+        await this.$axios.$post(`space/${path}`, Object.assign({ program }, options))
+      } catch (error) {
+        this.errors.push(error.response ? error.response.data : error.message)
+      }
+      this.isLoading = false
+    },
     // TODO: fetch the data (options, results) from the server (API).
     onSubmit: async function (evt) {
       let choice = this.getDPChoice()
@@ -95,16 +109,17 @@ export default {
       this.alert.reportedOption = choice
       this.showAlert()
 
-      // TODO: Send the value (choice) to the server.
+      this.submitCommand(`vote(${choice})`)
     },
     createPoll () {
-      // TODO: Send the create command to the server.
+      this.submitCommand(`createPoll("${encodeURI(this.newPollTitle)}")`)
       this.pollTitle = this.newPollTitle
       this.newPollTitle = ''
     },
     closePoll () {
-      this.isOpen = false
-      // TODO: Send the close command to the server.
+      this.submitCommand('closePoll()').then(() => {
+        if (this.errors.length === 0) this.isOpen = false
+      })
     },
     getDPChoice () {
       let coin = Math.random()
