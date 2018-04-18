@@ -72,18 +72,18 @@ export default {
   data () {
     return {
       alert: { currentSecs: 0, maxSecs: 10, selectedOption: 0, reportedOption: 0 },
-      pollTitle: 'Poll Title',
+      pollTitle: 'Loading',
       newPollTitle: '',
       isOpen: true,
-      isLoading: false,
+      isLoading: true,
       selected: 0,
       options: [
         { text: 'No', value: 0 },
         { text: 'Yes', value: 1 }
       ],
       results: [
-        { text: 'No', value: 0, count: 15 },
-        { text: 'Yes', value: 1, count: 4 }
+        { text: 'No', value: 0, count: 0 },
+        { text: 'Yes', value: 1, count: 0 }
       ],
       errors: []
     }
@@ -109,15 +109,15 @@ export default {
       this.alert.reportedOption = choice
       this.showAlert()
 
-      this.submitCommand(`vote(${choice})`)
+      this.submitCommand(`vote("${choice}")`)
     },
     createPoll () {
-      this.submitCommand(`createPoll("${encodeURI(this.newPollTitle)}")`)
+      this.submitCommand(`create-poll("${encodeURI(this.newPollTitle)}")`)
       this.pollTitle = this.newPollTitle
       this.newPollTitle = ''
     },
     closePoll () {
-      this.submitCommand('closePoll()').then(() => {
+      this.submitCommand('close-poll').then(() => {
         if (this.errors.length === 0) this.isOpen = false
       })
     },
