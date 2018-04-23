@@ -13,7 +13,7 @@
         <icon name="check-square-o" /> Create Poll
       </b-button>
     </b-form>
-    <b-form @submit.prevent="onSubmit" v-if="isOpen">
+    <b-form @submit.prevent="onSubmit" v-if="poll.isOpen">
       <b-alert :show="alert.currentSecs"
               dismissible
               variant="warning"
@@ -28,11 +28,11 @@
       </b-alert>
       <b-card no-body>
         <div slot="header">
-          {{ pollTitle }}
+          {{ poll.title }}
         </div>
         <b-list-group flush>
           <b-radio-group id="poll" v-model="selected">
-            <b-list-group-item v-for="option of options" :key="option.value">
+            <b-list-group-item v-for="option of poll.options" :key="option.value">
               <b-radio :value="option.value">{{ option.text }}</b-radio>
             </b-list-group-item>
           </b-radio-group>
@@ -45,10 +45,10 @@
     </b-form>
     <b-card no-body v-else>
       <div slot="header">
-        {{ pollTitle }}
+        {{ poll.title }}
       </div>
       <b-list-group flush>
-        <b-list-group-item v-for="result of results" :key="result.value">
+        <b-list-group-item v-for="result of poll.results" :key="result.value">
           {{ result.text }}
           <b-progress :max="total">
             <b-progress-bar :value="result.count" >
@@ -72,23 +72,59 @@ export default {
   data () {
     return {
       alert: { currentSecs: 0, maxSecs: 10, selectedOption: 0, reportedOption: 0 },
-      pollTitle: 'Loading',
       newPollTitle: '',
-      isOpen: true,
       isLoading: true,
       selected: 0,
-      options: [
-        { text: 'No', value: 0 },
-        { text: 'Yes', value: 1 }
-      ],
-      results: [
-        { text: 'No', value: 0, count: 0 },
-        { text: 'Yes', value: 1, count: 0 }
-      ],
+      poll: {
+        isOpen: false,
+        title: 'Loading',
+        options: [
+          { text: 'No', value: 0 },
+          { text: 'Yes', value: 1 }
+        ],
+        results: [
+          { text: 'No', value: 0, count: 0 },
+          { text: 'Yes', value: 1, count: 0 }
+        ]
+      },
       errors: []
     }
   },
   methods: {
+    async loadData () {
+      try {
+        let pollPartial = (await this.$axios.$get(`space/${this.path}.10`))
+          .map(result => {
+            let matchQuestion = result.msg.match(/^Q:(.+)/)
+            if (matchQuestion) {
+              return { title: matchQuestion[1] }
+            }
+            return { value: Number(result.msg) }
+          })
+          .reduce({ title: '', results: this.poll.results }, (previousValue, currentValue) => {
+            let newValue = previousValue
+            if (currentValue.title) {
+              newValue.title = currentValue.title
+              return newValue
+            }
+            let previousValueIndex = previousValue.results.findIndex(value => value.value === currentValue.value)
+            if (previousValueIndex !== -1) {
+              newValue.results[previousValueIndex].count += 1
+              return newValue
+            } else {
+              newValue.results.push({ value: currentValue.value, count: 1 })
+              return newValue
+            }
+          })
+        this.poll.title = pollPartial.title
+        this.poll.results = pollPartial.results
+        this.poll.isOpen = (await this.$axios.$get(`space/${this.path}.10.1`)).map(result => {
+          return result.msg === '0'
+        })[0]
+      } catch (error) {
+        this.error = error.response ? error.response.data : error.message
+      }
+    },
     async submitCommand (program) {
       this.isLoading = true
       try {
@@ -113,12 +149,12 @@ export default {
     },
     createPoll () {
       this.submitCommand(`create-poll("${encodeURI(this.newPollTitle)}")`)
-      this.pollTitle = this.newPollTitle
+      this.poll.title = this.newPollTitle
       this.newPollTitle = ''
     },
     closePoll () {
       this.submitCommand('close-poll').then(() => {
-        if (this.errors.length === 0) this.isOpen = false
+        if (this.errors.length === 0) this.poll.isOpen = false
       })
     },
     getDPChoice () {
@@ -137,9 +173,12 @@ export default {
       this.alert.currentSecs = newCountDown
     }
   },
+  mounted () {
+    this.loadData()
+  },
   computed: {
     total () {
-      return this.results
+      return this.poll.results
         .map(res => res.count)
         .reduce((accumulator, currentValue) => accumulator + currentValue)
     }
