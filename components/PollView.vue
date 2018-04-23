@@ -93,7 +93,8 @@ export default {
   methods: {
     async loadData () {
       try {
-        let pollPartial = (await this.$axios.$get(`space/${this.path}.10`))
+        let path = this.path === '' ? '' : `${this.path}.`
+        let pollPartial = (await this.$axios.$get(`space/${path}10`))
           .map(result => {
             let matchQuestion = result.msg.match(/^Q:(.+)/)
             if (matchQuestion) {
@@ -118,8 +119,8 @@ export default {
           })
         this.poll.title = pollPartial.title
         this.poll.results = pollPartial.results
-        this.poll.isOpen = (await this.$axios.$get(`space/${this.path}.10.1`)).map(result => {
-          return result.msg === '0'
+        this.poll.isOpen = (await this.$axios.$get(`space/${path}10.0`)).map(result => {
+          return result.msg === 'o'
         })[0]
       } catch (error) {
         this.error = error.response ? error.response.data : error.message
@@ -138,7 +139,7 @@ export default {
       this.isLoading = false
     },
     // TODO: fetch the data (options, results) from the server (API).
-    onSubmit: async function (evt) {
+    async onSubmit (evt) {
       let choice = this.getDPChoice()
       // For testing only
       this.alert.selectedOption = this.selected
