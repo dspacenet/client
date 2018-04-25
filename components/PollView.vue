@@ -1,7 +1,7 @@
 <template>
   <div>
+    <b-alert variant="danger" :show="true" dismissible v-for="(error, index) in errors" :key="index">{{error}}</b-alert>
     <b-form inline @submit.prevent="createPoll" class="mb-2">
-      <b-alert variant="danger" :show="true" dismissible v-for="(error, index) in errors" :key="index">{{error}}</b-alert>
       <label class="sr-only" for="pollName">Poll question</label>
       <b-form-input
         v-model="newPollTitle"
@@ -9,7 +9,7 @@
         placeholder="New question"
         class="mr-2"
       />
-      <b-button type="submit" v-b-tooltip.hover title="Create Poll" variant="primary">
+      <b-button type="submit" v-b-tooltip.hover title="Create Poll" variant="primary" :disabled="isLoading">
         <icon name="check-square-o" /> Create Poll
       </b-button>
     </b-form>
@@ -27,7 +27,7 @@
         </b-progress>
       </b-alert>
       <b-card no-body>
-        <div slot="header">
+        <div slot="header" :class="{loading: isLoading}">
           {{ poll.title }}
         </div>
         <b-list-group flush>
@@ -44,7 +44,7 @@
       </b-card>
     </b-form>
     <b-card no-body v-else>
-      <div slot="header">
+      <div slot="header" :class="{loading: isLoading}">
         {{ poll.title }}
       </div>
       <b-list-group flush>
@@ -92,6 +92,7 @@ export default {
   },
   methods: {
     async loadData () {
+      this.isLoading = true
       try {
         let path = this.path === '' ? '' : `${this.path}.`
         let pollPartial = (await this.$axios.$get(`space/${path}10`))
@@ -125,6 +126,7 @@ export default {
       } catch (error) {
         this.error = error.response ? error.response.data : error.message
       }
+      this.isLoading = false
     },
     async submitCommand (program) {
       this.isLoading = true
@@ -138,7 +140,6 @@ export default {
       }
       this.isLoading = false
     },
-    // TODO: fetch the data (options, results) from the server (API).
     async onSubmit (evt) {
       let choice = this.getDPChoice()
       // For testing only
@@ -148,10 +149,10 @@ export default {
 
       this.submitCommand(`vote("${choice}")`)
     },
-    createPoll () {
-      this.submitCommand(`create-poll("${encodeURI(this.newPollTitle)}")`)
-      this.poll.title = this.newPollTitle
+    async createPoll () {
+      await this.submitCommand(`create-poll("${encodeURI(this.newPollTitle)}")`)
       this.newPollTitle = ''
+      await this.loadData()
     },
     closePoll () {
       this.submitCommand('close-poll').then(() => {
@@ -188,6 +189,11 @@ export default {
 </script>
 
 <style>
-
+.loading {
+  background-image: url('/images/Gear.svg');
+  background-position-y: center;
+  background-position-x: calc(100% -5px);
+  background-repeat: no-repeat;
+}
 </style>
 
