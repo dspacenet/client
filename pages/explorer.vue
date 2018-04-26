@@ -25,7 +25,7 @@ export default {
   methods: {
     async explore () {
       try {
-        this.items = (await this.$axios.$get(`space/${this.path}`)).map((post) => {
+        this.items = (await this.$axios.$get(`space/${this.path}?filter=false`)).map((post) => {
           post.msg = decodeURI(post.msg)
           return post
         })
