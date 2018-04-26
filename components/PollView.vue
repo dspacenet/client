@@ -103,7 +103,7 @@ export default {
             }
             return { value: Number(result.msg) }
           })
-          .reduce({ title: '', results: this.poll.results }, (previousValue, currentValue) => {
+          .reduce((previousValue, currentValue) => {
             let newValue = previousValue
             if (currentValue.title) {
               newValue.title = currentValue.title
@@ -117,7 +117,7 @@ export default {
               newValue.results.push({ value: currentValue.value, count: 1 })
               return newValue
             }
-          })
+          }, { title: '', results: this.poll.results })
         this.poll.title = pollPartial.title
         this.poll.results = pollPartial.results
         this.poll.isOpen = (await this.$axios.$get(`space/${path}10.0`)).map(result => {
