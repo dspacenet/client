@@ -95,7 +95,8 @@ export default {
       this.isLoading = true
       try {
         let path = this.path === '' ? '' : `${this.path}.`
-        let pollPartial = (await this.$axios.$get(`space/${path}10`))
+        let initialResults = [{ text: 'No', value: 0, count: 0 }, { text: 'Yes', value: 1, count: 0 }]
+        let pollPartial = (await this.$axios.$get(`space/${path}10?filter=false`))
           .map(result => {
             let matchQuestion = result.msg.match(/^Q:(.+)/)
             if (matchQuestion) {
@@ -112,15 +113,12 @@ export default {
             let previousValueIndex = previousValue.results.findIndex(value => value.value === currentValue.value)
             if (previousValueIndex !== -1) {
               newValue.results[previousValueIndex].count += 1
-              return newValue
-            } else {
-              newValue.results.push({ value: currentValue.value, count: 1 })
-              return newValue
             }
-          }, { title: '', results: this.poll.results })
+            return newValue
+          }, { title: '', results: initialResults })
         this.poll.title = pollPartial.title
         this.poll.results = pollPartial.results
-        this.poll.isOpen = (await this.$axios.$get(`space/${path}10.0`)).map(result => {
+        this.poll.isOpen = (await this.$axios.$get(`space/${path}10.0?filter=false`)).map(result => {
           return result.msg === 'o'
         })[0]
       } catch (error) {
