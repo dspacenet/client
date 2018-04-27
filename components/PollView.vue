@@ -38,7 +38,7 @@
           </b-radio-group>
         </b-list-group>
         <div slot="footer">
-          <b-button type="submit" variant="primary">Vote</b-button>
+          <b-button type="submit" variant="primary" :disabled="isLoading">Vote</b-button>
           <span class="ml-1 text-success">This poll is still open. </span><b-link @click="closePoll" class="text-danger" herf="#">Close it.</b-link>
         </div>
       </b-card>
@@ -100,7 +100,7 @@ export default {
           .map(result => {
             let matchQuestion = result.msg.match(/^Q:(.+)/)
             if (matchQuestion) {
-              return { title: matchQuestion[1] }
+              return { title: decodeURI(matchQuestion[1]) }
             }
             return { value: Number(result.msg) }
           })
@@ -115,7 +115,7 @@ export default {
               newValue.results[previousValueIndex].count += 1
             }
             return newValue
-          }, { title: '', results: initialResults })
+          }, { title: 'Missing Poll Title', results: initialResults })
         this.poll.title = pollPartial.title
         this.poll.results = pollPartial.results
         this.poll.isOpen = (await this.$axios.$get(`space/${path}10.0?filter=false`)).map(result => {
@@ -131,7 +131,6 @@ export default {
       try {
         let path = this.path || 'global'
         let options = { storeProcess: false }
-        console.log(Object.assign({ program }, options))
         await this.$axios.$post(`space/${path}`, Object.assign({ program }, options))
       } catch (error) {
         this.errors.push(error.response ? error.response.data : error.message)
@@ -154,7 +153,10 @@ export default {
     },
     closePoll () {
       this.submitCommand('close-poll').then(() => {
-        if (this.errors.length === 0) this.poll.isOpen = false
+        if (this.errors.length === 0) {
+          this.poll.isOpen = false
+          this.loadData()
+        }
       })
     },
     getDPChoice () {
