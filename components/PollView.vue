@@ -151,12 +151,9 @@ export default {
       this.newPollTitle = ''
       await this.loadData()
     },
-    closePoll () {
-      this.submitCommand('close-poll').then(() => {
-        if (this.errors.length === 0) {
-          this.loadData()
-        }
-      })
+    async closePoll () {
+      await this.submitCommand('close-poll')
+      await this.loadData()
     },
     getDPChoice () {
       let coin = Math.random()
