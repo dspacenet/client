@@ -120,7 +120,7 @@ export default {
         this.poll.results = pollPartial.results
         this.poll.isOpen = (await this.$axios.$get(`space/${path}10.0?filter=false`)).map(result => {
           return result.msg === 'o'
-        })[0]
+        })[0] || false
       } catch (error) {
         this.error = error.response ? error.response.data : error.message
       }
@@ -154,7 +154,6 @@ export default {
     closePoll () {
       this.submitCommand('close-poll').then(() => {
         if (this.errors.length === 0) {
-          this.poll.isOpen = false
           this.loadData()
         }
       })
