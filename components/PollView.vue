@@ -93,10 +93,11 @@ export default {
   methods: {
     async loadData () {
       this.isLoading = true
+      let path = this.path === '' ? '' : `${this.path}.`
+      let initialResults = [{ text: 'No', value: 0, count: 0 }, { text: 'Yes', value: 1, count: 0 }]
       try {
-        let path = this.path === '' ? '' : `${this.path}.`
-        let initialResults = [{ text: 'No', value: 0, count: 0 }, { text: 'Yes', value: 1, count: 0 }]
-        let pollPartial = (await this.$axios.$get(`space/${path}10?filter=false`))
+        let pollRawData = await this.$axios.$get(`space/${path}10?filter=false`)
+        let pollPartial = pollRawData
           .map(result => {
             let matchQuestion = result.msg.match(/^Q:(.+)/)
             if (matchQuestion) {
