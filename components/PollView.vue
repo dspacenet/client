@@ -149,8 +149,11 @@ export default {
     },
     async createPoll () {
       await this.submitCommand(`create-poll("${encodeURI(this.newPollTitle)}")`)
-      this.newPollTitle = ''
       await this.loadData()
+      // "Missing Poll Title" workaround
+      // TODO: check error states.
+      this.poll.title = this.newPollTitle
+      this.newPollTitle = ''
     },
     async closePoll () {
       await this.submitCommand('close-poll')
