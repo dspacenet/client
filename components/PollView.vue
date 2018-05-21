@@ -149,9 +149,12 @@ export default {
     },
     async createPoll () {
       await this.submitCommand(`create-poll("${encodeURI(this.newPollTitle)}")`)
+      // Since create-poll cleans the poll space,
+      // the actual title is added in the next cycle.
+      // We make sure the data is available by skipping one step.
+      await this.submitCommand('skip')
       await this.loadData()
       // "Missing Poll Title" workaround
-      // TODO: check error states.
       this.poll.title = this.newPollTitle
       this.newPollTitle = ''
     },
