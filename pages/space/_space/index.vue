@@ -14,7 +14,7 @@
           <processes-view :path="spaceId" ref="pv" />
         </b-tab>
         <b-tab title="Poll">
-          <poll-view :path="spaceId" />
+          <poll-view :path="spaceId" :isOwner="isOwnSpace" />
         </b-tab>
         <template slot="tabs">
           <space-explorer :path="spaceId" :spaces="childs" />

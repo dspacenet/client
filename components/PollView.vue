@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-alert variant="danger" :show="true" dismissible v-for="(error, index) in errors" :key="index">{{error}}</b-alert>
-    <b-form inline @submit.prevent="createPoll" class="mb-2">
+    <b-form inline @submit.prevent="createPoll" class="mb-2" v-if="isOwner" >
       <label class="sr-only" for="pollName">Poll question</label>
       <b-form-input
         v-model="newPollTitle"
@@ -39,7 +39,7 @@
         </b-list-group>
         <div slot="footer">
           <b-button type="submit" variant="primary" :disabled="isLoading">Vote</b-button>
-          <span class="ml-1 text-success">This poll is still open. </span><b-link @click="closePoll" class="text-danger" herf="#">Close it.</b-link>
+          <span class="ml-1 text-success">This poll is still open. </span><b-link v-if="isOwner" @click="closePoll" class="text-danger" herf="#">Close it.</b-link>
         </div>
       </b-card>
     </b-form>
@@ -68,7 +68,7 @@
 import 'vue-awesome/icons/check-square-o'
 
 export default {
-  props: ['path'],
+  props: ['path', 'isOwner'],
   data () {
     return {
       alert: { currentSecs: 0, maxSecs: 10, selectedOption: 0, reportedOption: 0 },
