@@ -17,7 +17,7 @@
           <poll-view :path="spaceId" :isOwner="isOwnSpace" />
         </b-tab>
         <template slot="tabs">
-          <space-explorer :path="spaceId" :spaces="childs" />
+          <space-explorer :path="spaceId" :spaces="children" />
           <div class="ml-auto" @click="tabIndex = 0">
             <nuxt-link :to="'/space/' + parentSpace" v-if="!isGlobal" title="Go up" v-b-tooltip.hover>
               <icon name="long-arrow-up" scale="2" class="go-up-arrow" />
@@ -28,7 +28,7 @@
         </template>
       </b-tabs>
     </b-card>
-    <SpaceSlider :spaces="childs" v-if="!isGlobal" />
+    <SpaceSlider :spaces="children" v-if="!isGlobal" />
   </b-container>
 </template>
 
