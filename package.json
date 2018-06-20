@@ -19,12 +19,12 @@
     "bootstrap": "^4.0.0",
     "bootstrap-vue": "^2.0.0-rc.2",
     "js-cookie": "^2.2.0",
-    "nuxt": "^1.4.0",
+    "nuxt": "^1.4.1",
     "vue-awesome": "^2.3.5"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
-    "eslint": "^4.18.2",
+    "eslint": "^4.19.1",
     "eslint-config-standard": "^10.2.1",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-html": "^3.1.1",
