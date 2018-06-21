@@ -164,10 +164,11 @@ export default {
     },
     getDPChoice () {
       let coin = Math.random()
+      console.log(coin)
       if (coin >= 0.5) {
         return this.selected
       } else {
-        let dice = Math.floor(Math.random() * this.options.length)
+        let dice = Math.floor(Math.random() * this.poll.options.length)
         return dice
       }
     },
