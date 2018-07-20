@@ -21,7 +21,7 @@ export default {
         const items = await this.$axios.$get(`space/${this.path}.2`)
         this.isBusy = false
         return items.map((item) => {
-          return { PID: item.clock, sourceCode: decodeURI(item.msg), user: item.user_msg }
+          return { PID: item.pid, sourceCode: decodeURI(item.content), user: item.user }
         })
       } catch (error) {
         this.isBusy = false

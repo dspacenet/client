@@ -41,18 +41,25 @@ export default {
     renderMessage (message) {
       return decodeURI(message)
         .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt')
-        .replace(/"/g, '&quot')
+        .replace(/</g, '&lt;')
+        .replace(/"/g, '&quot;')
         .replace(/(https?:\/\/[^\s]+)/g, url => `<a href="${url}">${url}</a>`)
         .replace(/\n/g, '<br>')
+    },
+    update (changes) {
+      this.posts = this.posts.filter(post => !changes.removed.includes(post.id)).concat(changes.added)
     }
   },
 
   mounted: function () {
-    this.interval = setInterval(() => this.pollContent(), 1000)
+    this.$io.emit('bind', this.path)
+    this.$io.on('update', (space, data) => {
+      if (space === `${this.path}`) this.update(data)
+    })
+    this.pollContent()
   },
   beforeDestroy: function () {
-    clearInterval(this.interval)
+    this.$io.emit('unbind', this.path)
   }
 }
 </script>

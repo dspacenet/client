@@ -50,7 +50,8 @@ module.exports = {
   },
   // Plugins
   plugins: [
-    '~/plugins/icon.js'
+    '~/plugins/icon.js',
+    '~/plugins/io.js'
   ],
   // Axios global configuration
   axios: {
