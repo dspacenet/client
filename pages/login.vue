@@ -45,7 +45,7 @@ export default {
             password: this.login.password
           }
         })
-        this.$router.replace({ path: decodeURIComponent(this.$route.query.redirect) })
+        this.$router.replace({ path: '/' })
       } catch (error) {
         this.error = error.response ? error.response.data : error.message
       }

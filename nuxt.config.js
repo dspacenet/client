@@ -38,7 +38,7 @@ module.exports = {
       /*
       ** Run ESLint on save
       */
-      if (ctx.dev && ctx.isClient) {
+      if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -59,11 +59,20 @@ module.exports = {
   },
   // Auth Setup
   auth: {
-    endpoints: {
-      login: { url: 'login', method: 'post', propertyName: 'token' },
-      logout: { url: 'logout', method: 'get' },
-      user: { url: 'user', method: 'get', propertyName: 'user' }
-    }
+    rewriteRedirects: false,
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: 'login', method: 'post', propertyName: 'token' },
+          logout: { url: 'logout', method: 'get' },
+          user: { url: 'user', method: 'get', propertyName: 'user' }
+        }
+      },
+    },
+    redirect: {
+      login: '/login',
+      logout: '/login',
+    },
   },
   // Middleware
   middleware: ['auth']
