@@ -20,13 +20,13 @@
           </template>
           <b-dropdown-header>Notifications</b-dropdown-header>
           <template v-for="notification in notifications">
-          <b-dropdown-divider :key="notification.clock" />
-          <b-dropdown-item :key="notification.clock">
+          <b-dropdown-divider :key="notification.uid" />
+          <b-dropdown-item :key="notification.uid">
             <span class="text-success">
-              <strong><icon name="info-circle" class="mx-1" />{{notification.user_msg}}</strong>
+              <strong><icon name="info-circle" class="mx-1" />{{notification.user}}</strong>
             </span>
-            <span class="small float-right text-muted">{{notification.clock}}</span>
-            <div class="dropdown-message small">{{notification.msg}}.</div>
+            <span class="small float-right text-muted">{{notification.pid}}</span>
+            <div class="dropdown-message small">{{notification.content}}.</div>
           </b-dropdown-item>
           </template>
         </b-nav-item-dropdown>
@@ -74,10 +74,20 @@ export default {
       } catch (error) {
         this.error = error.response ? error.response.error : error.message
       }
+    },
+    updateNotifications (path, changes) {
+      if (path === `${this.userId}.12`) {
+        this.notifications = changes.added.concat(this.notifications.filter(post => !changes.removed.includes(post.id)))
+      }
     }
   },
   mounted () {
     this.getNotifications()
+    this.$io.emit('bind', `${this.userId}.12`)
+    this.$io.on('update', this.updateNotifications)
+  },
+  dismounted () {
+    this.$io.emit('unbind', `${this.userId}.12`)
   }
 }
 </script>
@@ -95,6 +105,7 @@ export default {
 
 .dropdown-message {
   max-width: 250px;
+  min-width: 200px;
   overflow: hidden;
 }
 </style>
