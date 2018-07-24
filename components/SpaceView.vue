@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     pollContent: async function () {
-      this.posts = await this.$axios.$get(`space/${this.path || 'global'}`)
+      this.posts = (await this.$axios.$get(`space/${this.path || 'global'}`)).sort((a, b) => b.pid - a.pid)
       this.isLoading = false
     },
     renderMessage (message) {
@@ -47,7 +47,7 @@ export default {
         .replace(/\n/g, '<br>')
     },
     update (changes) {
-      this.posts = this.posts.filter(post => !changes.removed.includes(post.id)).concat(changes.added)
+      this.posts = changes.added.concat(this.posts.filter(post => !changes.removed.includes(post.id)))
     }
   },
 
