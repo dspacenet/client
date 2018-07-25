@@ -26,7 +26,9 @@
             <span class="text-success">
               <strong><icon name="info-circle" class="mx-1" />{{notification.user}}</strong>
             </span>
-            <span class="small float-right text-muted">{{notification.pid}}</span>
+            <span class="small float-right text-muted" @click.stop="removeNotification(notification.pid)">
+              <icon name="trash" />
+            </span>
             <div class="dropdown-message small">{{notification.content}}.</div>
           </b-dropdown-item>
           </template>
@@ -63,6 +65,7 @@ import 'vue-awesome/icons/sign-out'
 import 'vue-awesome/icons/bell'
 import 'vue-awesome/icons/circle'
 import 'vue-awesome/icons/info-circle'
+import 'vue-awesome/icons/trash'
 
 export default {
   data () {
@@ -84,6 +87,9 @@ export default {
       if (path === `${this.userId}.12`) {
         this.notifications = changes.added.concat(this.notifications.filter(post => !changes.removed.includes(post.id)))
       }
+    },
+    removeNotification (pid) {
+      this.$axios.$post(`space/${this.userId}.12`, { program: `kill("${pid}")` })
     }
   },
   mounted () {
