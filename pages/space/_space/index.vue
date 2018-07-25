@@ -2,7 +2,14 @@
   <b-container>
     <b-card no-body class="mb-3">
       <b-tabs card @input="refreshTOP" v-model="tabIndex">
-        <b-tab title="" title-link-class="no-tab" >
+        <b-tab title-link-class="no-tab" >
+          <div @click="tabIndex = 0" slot="title" style="margin:-6px 0 -5px 0">
+            <nuxt-link :to="'/space/' + parentSpace" v-if="!isGlobal" title="Go up" v-b-tooltip.hover>
+              <icon name="long-arrow-up" scale="2.5" class="go-up-arrow" style="margin-top:-8px" />
+            </nuxt-link>
+            <b-img rounded="circle" :src="'/images/users/small/' + space + '.jpg'" class="user-image"/>
+            <strong class="ml-1">{{header}}</strong>
+          </div>
           <space-terminal :path="spaceId" />
           <space-view :path="spaceId" />
         </b-tab>
@@ -18,13 +25,6 @@
         </b-tab>
         <template slot="tabs">
           <space-explorer :path="spaceId" :spaces="children" />
-          <div class="ml-auto" @click="tabIndex = 0">
-            <nuxt-link :to="'/space/' + parentSpace" v-if="!isGlobal" title="Go up" v-b-tooltip.hover>
-              <icon name="long-arrow-up" scale="2" class="go-up-arrow" />
-            </nuxt-link>
-            {{header}}
-            <b-img rounded="circle" :src="'/images/users/small/' + space + '.jpg'" class="user-image"/>
-          </div>
         </template>
       </b-tabs>
     </b-card>
