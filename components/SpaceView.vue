@@ -50,7 +50,12 @@ export default {
       this.posts = changes.added.concat(this.posts.filter(post => !changes.removed.includes(post.id)))
     }
   },
-
+  watch: {
+    path: (val, oldVal) => {
+      this.$io.emit('unbind', oldVal)
+      this.$io.emit('bind', val)
+    }
+  },
   mounted: function () {
     this.$io.emit('bind', this.path)
     this.$io.on('update', (space, data) => {
