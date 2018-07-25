@@ -14,11 +14,12 @@
             Alerts
             <b-badge pill variant="warning" v-if="notifications.length">{{notifications.length}}</b-badge>
           </span>
-          <span class="indicator text-warning d-none d-lg-block">
+          <span class="indicator text-warning d-none d-lg-block"  v-if="notifications.length">
             <icon name="circle" scale="0.6"/>
           </span>
           </template>
           <b-dropdown-header>Notifications</b-dropdown-header>
+          <template v-if="notifications.length">
           <template v-for="notification in notifications">
           <b-dropdown-divider :key="notification.uid" />
           <b-dropdown-item :key="notification.uid">
@@ -29,6 +30,10 @@
             <div class="dropdown-message small">{{notification.content}}.</div>
           </b-dropdown-item>
           </template>
+          </template>
+          <b-dropdown-item v-else>
+            <div class="dropdown-message small">No hay nuevas notificaciones.</div>
+          </b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item :to="'/space/' + username">
           <b-img rounded="circle" width="22" height="22" :src="'/images/' + username + '.jpg'" />
