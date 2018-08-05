@@ -67,13 +67,16 @@ module.exports = {
           logout: { url: 'logout', method: 'get' },
           user: { url: 'user', method: 'get', propertyName: 'user' }
         }
-      },
+      }
     },
     redirect: {
       login: '/login',
-      logout: '/login',
-    },
+      logout: '/login'
+    }
   },
   // Middleware
-  middleware: ['auth']
+  middleware: ['auth'],
+  env: {
+    WS_URL: process.env.WS_URL
+  }
 }
