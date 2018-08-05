@@ -23,6 +23,9 @@
         <b-tab title="Poll">
           <poll-view :path="spaceId" :isOwner="isOwnSpace" />
         </b-tab>
+        <b-tab title="Notifications" v-if="isOwnSpace"> 
+          <space-view :path="subspace(12)" />
+        </b-tab>
         <template slot="tabs">
           <space-explorer :path="spaceId" :spaces="children" />
         </template>
