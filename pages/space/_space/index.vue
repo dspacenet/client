@@ -13,9 +13,17 @@
           <space-terminal :path="spaceId" />
           <space-view :path="spaceId" />
         </b-tab>
-        <b-tab title="Forum">
-          <space-terminal :path="subspace(8)" />
-          <space-view :path="subspace(8)" />
+        <b-tab title="Private Chat">
+          <template v-if="!isOwnSpace">
+            <space-terminal :path="subspace(`16.${$auth.$state.user.id}`)" />
+            <space-view :path="subspace(`16.${$auth.$state.user.id}`)" />
+          </template>
+          <b-tabs vertical pills v-else>
+            <b-tab v-for="child in children" :key="child.id" :title="child.user">
+            <space-terminal :path="subspace(`16.${child.id}`)" />
+            <space-view :path="subspace(`16.${child.id}`)" />
+            </b-tab>
+          </b-tabs>
         </b-tab>
         <b-tab title="TOP" v-if="isOwnSpace">
           <processes-view :path="spaceId" ref="pv" />
