@@ -13,7 +13,7 @@
           <space-terminal :path="spaceId" />
           <space-view :path="spaceId" />
         </b-tab>
-        <b-tab title="Private Chat">
+        <b-tab title="Private Chat" v-if="!isGlobal">
           <template v-if="!isOwnSpace">
             <space-terminal :path="subspace(`16.${$auth.$state.user.id}`)" />
             <space-view :path="subspace(`16.${$auth.$state.user.id}`)" />
