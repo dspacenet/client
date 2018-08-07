@@ -89,7 +89,7 @@ export default {
       }
     },
     removeNotification (pid) {
-      this.$axios.$post(`space/${this.userId}.12`, { program: `kill("${pid}")` })
+      this.$axios.$post(`space/${this.userId}.12`, { program: `rm("${pid}",*,*)` })
     }
   },
   mounted () {
