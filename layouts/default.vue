@@ -4,8 +4,11 @@
     <div class="content-wrapper no-bg">
       <nuxt/>
     </div>
-    <MyFooter />
-    <LogoutModal />
+    <my-footer />
+    <logout-modal />
+    <explorer-modal />
+    <processes-modal />
+    <terminal-modal />
   </div>
 </template>
 
@@ -13,6 +16,9 @@
 import NavBar from '~/components/NavBar.vue'
 import MyFooter from '~/components/MyFooter.vue'
 import LogoutModal from '~/components/LogoutModal.vue'
+import ExplorerModal from '~/components/ExplorerModal.vue'
+import ProcessesModal from '~/components/ProcessesModal.vue'
+import TerminalModal from '~/components/TerminalModal.vue'
 
 export default {
   head: {
@@ -22,7 +28,7 @@ export default {
     }
   },
   components: {
-    NavBar, MyFooter, LogoutModal
+    NavBar, MyFooter, LogoutModal, ExplorerModal, ProcessesModal, TerminalModal
   }
 }
 </script>
