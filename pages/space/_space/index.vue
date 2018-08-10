@@ -5,7 +5,7 @@
         <b-tab title-link-class="no-tab" >
           <div @click="tabIndex = 0" slot="title" style="margin:-6px 0 -5px 0">
             <nuxt-link :to="'/space/' + parentSpace" v-if="!isGlobal" title="Go up" v-b-tooltip.hover>
-              <icon name="long-arrow-up" scale="2.5" class="go-up-arrow" style="margin-top:-8px" />
+              <icon name="long-arrow-alt-up" scale="2.5" class="go-up-arrow" style="margin-top:-8px" />
             </nuxt-link>
             <b-img rounded="circle" :src="'/images/users/small/' + space + '.jpg'" class="user-image"/>
             <strong class="ml-1">{{header}}</strong>
@@ -51,7 +51,7 @@ import SpaceExplorer from '~/components/SpaceExplorer.vue'
 import SpaceSlider from '~/components/SpaceSlider.vue'
 import PollView from '~/components/PollView.vue'
 
-import 'vue-awesome/icons/long-arrow-up'
+import 'vue-awesome/icons/long-arrow-alt-up'
 
 export default {
   middleware: ['auth', 'resolvePath'],

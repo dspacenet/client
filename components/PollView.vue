@@ -10,7 +10,7 @@
         class="mr-2"
       />
       <b-button type="submit" v-b-tooltip.hover title="Create Poll" variant="primary" :disabled="isLoading">
-        <icon name="check-square-o" /> Create Poll
+        <icon name="check-square" /> Create Poll
       </b-button>
     </b-form>
     <b-form @submit.prevent="onSubmit" v-if="poll.isOpen">
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import 'vue-awesome/icons/check-square-o'
+import 'vue-awesome/icons/check-square'
 
 export default {
   props: ['path', 'isOwner'],

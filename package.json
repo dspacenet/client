@@ -21,7 +21,7 @@
     "js-cookie": "^2.2.0",
     "nuxt": "^1.4.1",
     "socket.io-client": "^2.1.1",
-    "vue-awesome": "^2.3.7"
+    "vue-awesome": "^3.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
