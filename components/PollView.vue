@@ -99,11 +99,11 @@ export default {
         let pollRawData = await this.$axios.$get(`space/${path}10?filter=false`)
         let pollPartial = pollRawData
           .map(result => {
-            let matchQuestion = result.msg.match(/^Q:(.+)/)
+            let matchQuestion = result.content.match(/^Q:(.+)/)
             if (matchQuestion) {
               return { title: decodeURI(matchQuestion[1]) }
             }
-            return { value: Number(result.msg) }
+            return { value: Number(result.content) }
           })
           .reduce((previousValue, currentValue) => {
             let newValue = previousValue
@@ -120,7 +120,7 @@ export default {
         this.poll.title = pollPartial.title
         this.poll.results = pollPartial.results
         this.poll.isOpen = (await this.$axios.$get(`space/${path}10.0?filter=false`)).map(result => {
-          return result.msg === 'o'
+          return result.content === 'o'
         })[0] || false
       } catch (error) {
         this.error = error.response ? error.response.data : error.message
