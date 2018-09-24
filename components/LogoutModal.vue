@@ -18,7 +18,7 @@ export default {
   methods: {
     logout () {
       this.$auth.logout()
-      this.$router.replace({ path: '/' })
+      this.$router.replace({ path: '/login' })
     }
   }
 }
