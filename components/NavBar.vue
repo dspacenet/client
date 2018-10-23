@@ -37,10 +37,6 @@
             <div class="dropdown-message small">No hay nuevas notificaciones.</div>
           </b-dropdown-item>
         </b-nav-item-dropdown>
-        <b-nav-item :to="'/space/' + username">
-          <b-img rounded="circle" width="22" height="22" :src="'/images/' + username + '.jpg'" />
-          {{username}} ({{userId}})
-        </b-nav-item>
         <b-nav-item-dropdown class="mr-2" v-if="rank === 'admin'">
           <template slot="button-content" >
           <icon name="wrench" title="Control Panel" v-b-tooltip.hover />
@@ -69,9 +65,24 @@
             <icon name="power-off" /> Restart Core
           </b-dropdown-item>
         </b-nav-item-dropdown>
-        <b-nav-item title="Help" v-b-popover.bottom.hover="'P:= post(c)  | whenever c do P | P || Q | repeat P | until c do P | when c do P | while c do P | now c do P | now c then P else Q | kill(c)'">
+        <b-nav-item-dropdown class="mr-2">
+          <template slot="button-content" >
           <icon name="question-circle" />
           <span class="d-lg-none">Help</span>
+          </template>
+          <b-dropdown-item v-b-modal.reportModal>
+            <icon name="bug" /> Send Report
+          </b-dropdown-item>
+          <b-dropdown-item to="/sculp-reference">
+            <icon name="book" /> SCULP Reference
+          </b-dropdown-item>
+          <b-dropdown-item to="/about">
+            <icon name="info-circle" /> About DSpaceNet
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
+        <b-nav-item :to="'/space/' + username">
+          <b-img rounded="circle" width="22" height="22" :src="'/images/' + username + '.jpg'" />
+          {{username}} ({{userId}})
         </b-nav-item>
         <b-nav-item title="Logout" v-b-modal.logoutModal v-b-tooltip.hover>
           <icon name="sign-out-alt" />
@@ -96,6 +107,8 @@ import 'vue-awesome/icons/sync-alt'
 import 'vue-awesome/icons/ban'
 import 'vue-awesome/icons/terminal'
 import 'vue-awesome/icons/power-off'
+import 'vue-awesome/icons/bug'
+import 'vue-awesome/icons/book'
 export default {
   data () {
     return {
