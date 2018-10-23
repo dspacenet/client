@@ -9,6 +9,7 @@
     <explorer-modal />
     <processes-modal />
     <terminal-modal />
+    <report-modal />
   </div>
 </template>
 
@@ -19,6 +20,7 @@ import LogoutModal from '~/components/LogoutModal.vue'
 import ExplorerModal from '~/components/ExplorerModal.vue'
 import ProcessesModal from '~/components/ProcessesModal.vue'
 import TerminalModal from '~/components/TerminalModal.vue'
+import ReportModal from '~/components/ReportModal.vue'
 
 export default {
   head: {
@@ -28,7 +30,7 @@ export default {
     }
   },
   components: {
-    NavBar, MyFooter, LogoutModal, ExplorerModal, ProcessesModal, TerminalModal
+    NavBar, MyFooter, LogoutModal, ExplorerModal, ProcessesModal, TerminalModal, ReportModal
   }
 }
 </script>
