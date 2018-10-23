@@ -41,7 +41,7 @@
           <b-img rounded="circle" width="22" height="22" :src="'/images/' + username + '.jpg'" />
           {{username}} ({{userId}})
         </b-nav-item>
-        <b-nav-item-dropdown class="mr-2">
+        <b-nav-item-dropdown class="mr-2" v-if="rank === 'admin'">
           <template slot="button-content" >
           <icon name="wrench" title="Control Panel" v-b-tooltip.hover />
           <span class="d-lg-none">Control Panel</span>
@@ -101,6 +101,7 @@ export default {
     return {
       username: this.$auth.state.user ? this.$auth.state.user.name : '',
       userId: this.$auth.state.user ? this.$auth.state.user.id : '',
+      rank: this.$auth.state.user ? this.$auth.state.user.rank : 'user',
       notifications: []
     }
   },
