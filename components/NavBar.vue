@@ -73,7 +73,7 @@
           <b-dropdown-item v-b-modal.reportModal>
             <icon name="bug" /> Send Report
           </b-dropdown-item>
-          <b-dropdown-item to="/sculp-reference">
+          <b-dropdown-item href="/SCULPReference.pdf">
             <icon name="book" /> SCULP Reference
           </b-dropdown-item>
           <b-dropdown-item to="/about">
